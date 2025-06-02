@@ -95,8 +95,9 @@ main:
 
     bl draw_TuboVerde       // Dibuja el Tubo Verde
     bl draw_Mario           // Dibuja a Mario Bros
-    //bl draw_HongoMalo
-    //bl draw_Tortuga
+    // bl draw_HongoMalo
+    // bl draw_Tortuga
+    bl draw_Suelo           // Dibuja los detalles del Suelo
     bl draw_OdC2025         // Dibuja OdC2025
 
     // -------------------------
