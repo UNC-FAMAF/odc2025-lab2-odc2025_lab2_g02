@@ -5,16 +5,6 @@ draw_TuboVerde:
 
 STR x30, [sp, #-16]!   // Guarda el LR en la pila
 
-// Negro (Bordes)
-    movz    x12, 0x0000, lsl 0
-    movk    x12, 0xFF00, lsl 16
-    mov     w12, w12
-
-// Verde (Tubo)
-    movz    x11, 0xFF00, lsl 0
-    movk    x11, 0xFF00, lsl 16
-    mov     w11, w11
-
 // -------------------------
     // TUBO VERDE
     // Coordenadas y dimensiones del tubo
