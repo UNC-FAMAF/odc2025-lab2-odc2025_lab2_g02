@@ -5,41 +5,6 @@ draw_Mario:
 
 STR x30, [sp, #-16]!   // Guarda el LR en la pila
 
-// ------------------------
-    // Colores para Mario
-    // ------------------------
-
-    // Rojo (gorra y camisa)
-    movz x14, 0x0000, lsl 0
-    movk x14, 0xFFFF, lsl 16     // 0xFFFF0000
-    mov  w14, w14             
-
-    // Piel (cara y manos)
-    movz x15, 0xC080, lsl 0
-    movk x15, 0xFFFF, lsl 16     // 0xFFFFC080
-    mov  w15, w15                
-
-    // Marrón (pelo, bigote)
-    movz x16, 0x2010, lsl 0
-    movk x16, 0xFF30, lsl 16     // 0xFF302010
-    mov  w16, w16                
-
-    // Azul (overol)
-    movz x17, 0x40C0, lsl 0
-    movk x17, 0xFF00, lsl 16     // 0xFF0040C0     
-    //#0000ff
-    mov  w17, w17                
-
-    // Amarillo (botones)
-    movz x18, 0xFF00, lsl 0
-    movk x18, 0xFFFF, lsl 16     // 0xFFFFFF00
-    mov  w18, w18 
-
-    // Negro (Bordes)
-    movz    x12, 0x0000, lsl 0
-    movk    x12, 0xFF00, lsl 16
-    mov     w12, w12
-
     // -------------------------
     // Dibujo de Mario Bros
     // -------------------------
