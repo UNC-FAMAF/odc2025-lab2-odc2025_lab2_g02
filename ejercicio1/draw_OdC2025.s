@@ -5,11 +5,6 @@ draw_OdC2025:
 
 STR x30, [sp, #-16]!   // Guarda el LR en la pila
 
-// Negro (Bordes)
-    movz    x12, 0x0000, lsl 0
-    movk    x12, 0xFF00, lsl 16
-    mov     w12, w12
-
     // -------------------------
     // TEXTO "OdC 2025" en esquina inferior izquierda
     // -------------------------
