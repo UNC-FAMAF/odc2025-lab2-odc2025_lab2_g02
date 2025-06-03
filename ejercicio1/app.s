@@ -30,6 +30,11 @@ main:
     movk x19, 0xFF99, lsl 16
     mov  w19, w19
 
+    // Verde Oscuro 
+    movz x28, 0x8A33, lsl 0      
+    movk x28, 0xFF00, lsl 16      
+    mov w28, w28                  // 0xFF00B140
+
     // Marron (Bloques)
     movz x13, 0x4513, lsl 0
     movk x13, 0xFF8B, lsl 16
@@ -98,6 +103,7 @@ main:
     //---------------
     // Comente los que no estan hechos todavía
 
+    bl draw_fondo           // Dibuja el arbusto y la montaña de fondo
     bl draw_Mario           // Dibuja a Mario Bros
 	bl draw_Suelo           // Dibuja los detalles del Suelo
     bl draw_OdC2025         // Dibuja OdC2025
