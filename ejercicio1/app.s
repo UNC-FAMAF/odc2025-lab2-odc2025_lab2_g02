@@ -16,24 +16,29 @@ main:
     // -------------------------
 
     // Celeste (Cielo)
-    movz    x10, 0xCEE9, lsl 0
-    movk    x10, 0xFF99, lsl 16
-    mov     w10, w10
-
-    // Marron (Bloques)
-    movz    x13, 0x4513, lsl 0
-    movk    x13, 0xFF8B, lsl 16
-    mov     w13, w13
+    movz x10, 0xABFF, lsl 0
+    movk x10, 0xFF55, lsl 16    //0XFF55ABFF
+    mov  w10, w10
 
     // Verde (Tubo)
-    movz    x11, 0xFF00, lsl 0
-    movk    x11, 0xFF00, lsl 16
-    mov     w11, w11
+    movz x11, 0xCE21, lsl 0
+    movk x11, 0xFF27, lsl 16     //0XFF27CE21
+    mov  w11, w11
+	
+	// Verde claro para brillo
+    movz x19, 0xFC43, lsl 0
+    movk x19, 0xFF99, lsl 16
+    mov  w19, w19
+
+    // Marron (Bloques)
+    movz x13, 0x4513, lsl 0
+    movk x13, 0xFF8B, lsl 16
+    mov  w13, w13
 
     // Negro (Bordes)
-    movz    x12, 0x0000, lsl 0
-    movk    x12, 0xFF00, lsl 16
-    mov     w12, w12
+    movz x12, 0x0000, lsl 0
+    movk x12, 0xFF00, lsl 16
+    mov  w12, w12
 
     // ------------------------
     // Colores para Mario
@@ -93,13 +98,13 @@ main:
     //---------------
     // Comente los que no estan hechos todavía
 
+    bl draw_Mario           // Dibuja a Mario Bros
+	bl draw_Suelo           // Dibuja los detalles del Suelo
+    bl draw_OdC2025         // Dibuja OdC2025
     bl draw_TuboVerde       // Dibuja el Tubo Verde
     bl draw_bloque          // Dibuja los Bloques en el aire 
-    bl draw_Mario           // Dibuja a Mario Bros
     // bl draw_HongoMalo
     // bl draw_Tortuga
-    bl draw_Suelo           // Dibuja los detalles del Suelo
-    bl draw_OdC2025         // Dibuja OdC2025
 
     // -------------------------
     // GPIO SETUP
