@@ -4,6 +4,7 @@
 draw_TuboVerde:
 
     STR x30, [sp, #-16]!
+    mov x0, x20
 
     // -----------------------------
     // CUERPO DEL TUBO (2 COLORES)
@@ -143,6 +144,8 @@ draw_TuboVerde:
     mov x4, #3
     mov w5, w12
     bl draw_rect
+
+    mov x20,x0
 
     LDR x30, [sp], #16
     RET

@@ -45,6 +45,11 @@ main:
     movk x12, 0xFF00, lsl 16
     mov  w12, w12
 
+    //Blanco (Nubes)
+    movz x29, 0xFFFF, lsl 0
+    movk x29, 0xFFFF, lsl 16
+    mov w29,w29
+
     // ------------------------
     // Colores para Mario
     // ------------------------
@@ -129,6 +134,7 @@ main:
     bl draw_OdC2025         // Dibuja OdC2025
     bl draw_TuboVerde       // Dibuja el Tubo Verde
     bl draw_bloque          // Dibuja los Bloques en el aire
+    bl draw_cloud           // Dibuja las Nubes
     // bl draw_Tortuga
 
     // -------------------------
