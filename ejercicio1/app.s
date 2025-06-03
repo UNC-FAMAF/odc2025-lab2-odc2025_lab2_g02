@@ -94,6 +94,7 @@ main:
     // Comente los que no estan hechos todavía
 
     bl draw_TuboVerde       // Dibuja el Tubo Verde
+    bl draw_bloque          // Dibuja los Bloques en el aire 
     bl draw_Mario           // Dibuja a Mario Bros
     // bl draw_HongoMalo
     // bl draw_Tortuga
