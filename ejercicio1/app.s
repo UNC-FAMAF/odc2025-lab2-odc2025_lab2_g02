@@ -74,6 +74,25 @@ main:
     movz x18, 0xFF00, lsl 0
     movk x18, 0xFFFF, lsl 16     // 0xFFFFFF00
     mov  w18, w18
+	
+	// ------------------------
+    // Colores para Goomba
+    // ------------------------
+	// Marrón (cabeza)
+    movz x24, 0x5D2E, lsl 0
+    movk x24, 0xFF8B, lsl 16     // 0XFF8B5D2E
+    mov  w24, w24                
+
+    // Marron claro (cuerpo)
+    movz x25, 0xD486  , lsl 0
+    movk x25, 0xFFE8, lsl 16     // 0xFFE8D486   
+    mov  w25, w25             
+
+    // Blanco (ojos)
+    movz x26, 0xFFFF, lsl 0
+    movk x26, 0xFFFF, lsl 16     // 0XFFFFFFFF
+    mov  w26, w26
+	
 
     // -------------------------
     // FONDO CELESTE (80% superior)
@@ -105,11 +124,11 @@ main:
 
     bl draw_fondo           // Dibuja el arbusto y la montaña de fondo
     bl draw_Mario           // Dibuja a Mario Bros
+	bl draw_HongoMalo	    // Dibuja a Goomba
 	bl draw_Suelo           // Dibuja los detalles del Suelo
     bl draw_OdC2025         // Dibuja OdC2025
     bl draw_TuboVerde       // Dibuja el Tubo Verde
-    bl draw_bloque          // Dibuja los Bloques en el aire 
-    // bl draw_HongoMalo
+    bl draw_bloque          // Dibuja los Bloques en el aire
     // bl draw_Tortuga
 
     // -------------------------
