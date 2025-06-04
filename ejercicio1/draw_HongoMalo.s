@@ -144,7 +144,7 @@ STR x30, [sp, #-16]!   // Guarda el LR en la pila
     // Rectángulo blanco (3x6)
     add x2, x2, #6       // x = 305
     mov x4, #6
-    mov w5, w26
+    mov w5, w29
     bl draw_rect
 
     // Rectángulo marrón oscuro (3x6)
@@ -156,7 +156,7 @@ STR x30, [sp, #-16]!   // Guarda el LR en la pila
     // Rectángulo blanco (3x6)
     add x2, x2, #6       // x = 317
     mov x4, #6
-    mov w5, w26
+    mov w5, w29
     bl draw_rect
 
     // Rectángulo marrón oscuro (3x6)
@@ -190,7 +190,7 @@ STR x30, [sp, #-16]!   // Guarda el LR en la pila
     // Rectángulo blanco (3x2)
     add x2, x2, #6       // x = 304
     mov x4, #2
-    mov w5, w26
+    mov w5, w29
     bl draw_rect
 
     // Rectángulo negro (3x2)
@@ -202,7 +202,7 @@ STR x30, [sp, #-16]!   // Guarda el LR en la pila
     // Rectángulo blanco (3x2)
     add x2, x2, #2       // x = 308
     mov x4, #2
-    mov w5, w26
+    mov w5, w29
     bl draw_rect
 
     // Rectángulo marrón oscuro (3x6)
@@ -214,7 +214,7 @@ STR x30, [sp, #-16]!   // Guarda el LR en la pila
     // Rectángulo blanco (3x2)
     add x2, x2, #6       // x = 316
     mov x4, #2
-    mov w5, w26
+    mov w5, w29
     bl draw_rect
 
     // Rectángulo negro (3x2)
@@ -226,7 +226,7 @@ STR x30, [sp, #-16]!   // Guarda el LR en la pila
     // Rectángulo blanco (3x2)
     add x2, x2, #2       // x = 320
     mov x4, #2
-    mov w5, w26
+    mov w5, w29
     bl draw_rect
 
     // Rectángulo marrón oscuro (3x6)
@@ -260,7 +260,7 @@ STR x30, [sp, #-16]!   // Guarda el LR en la pila
     // Rectángulo blanco (3x2)
     add x2, x2, #4       // x = 304
     mov x4, #2
-    mov w5, w26
+    mov w5, w29
     bl draw_rect
 
     // Rectángulo negro (3x14) ← actualizado
@@ -272,7 +272,7 @@ STR x30, [sp, #-16]!   // Guarda el LR en la pila
     // Rectángulo blanco (3x2)
     add x2, x2, #14      // x = 320
     mov x4, #2
-    mov w5, w26
+    mov w5, w29
     bl draw_rect
 
     // Rectángulo marrón oscuro (3x4)
@@ -306,7 +306,7 @@ STR x30, [sp, #-16]!   // Guarda el LR en la pila
     // Rectángulo blanco (3x2)
     add x2, x2, #4       // x = 306
     mov x4, #2
-    mov w5, w26
+    mov w5, w29
     bl draw_rect
 
     // Rectángulo negro (3x2)
@@ -330,7 +330,7 @@ STR x30, [sp, #-16]!   // Guarda el LR en la pila
     // Rectángulo blanco (3x2)
     add x2, x2, #2       // x = 322
     mov x4, #2
-    mov w5, w26
+    mov w5, w29
     bl draw_rect
 
     // Rectángulo marrón oscuro (3x4)
