@@ -135,7 +135,6 @@ main:
     bl draw_TuboVerde       // Dibuja el Tubo Verde
     bl draw_bloque          // Dibuja los Bloques en el aire
     bl draw_cloud           // Dibuja las Nubes
-    // bl draw_Tortuga
 
     // -------------------------
     // GPIO SETUP

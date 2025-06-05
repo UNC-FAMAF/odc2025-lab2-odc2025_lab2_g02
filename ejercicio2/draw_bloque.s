@@ -5,9 +5,9 @@ draw_bloque:
 STR x30, [sp, #-16]!   // Guarda el LR en la pila
 
 // Bloque de ladrillo 1--------------------------------------------------------------------
-
+    mov x0, x20
     mov x1, #150   
-    mov x2, #100
+    mov x2, #75
     mov x3, #51
     mov x4, #51
     mov w5, w13
@@ -208,7 +208,7 @@ STR x30, [sp, #-16]!   // Guarda el LR en la pila
     // Bloque de ladrillo 4 -------------------------------------------------------------
 
     sub x1, x1, #12   
-    add x2, x2, #200
+    add x2, x2, #150
     mov x3, #51
     mov x4, #51
     mov w5, w13
