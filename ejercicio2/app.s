@@ -12,9 +12,9 @@ main:
 	// x0 contiene la direccion base del framebuffer
  	mov x20, x0	// Guarda la dirección base del framebuffer en x20
 
-	// -------------------------
+	// ----------------------------------------------------
     // COLORES (ARGB)
-    // -------------------------
+    // ---------------------------------------------------
 
     // Celeste (Cielo)
     movz x10, 0xABFF, lsl 0
@@ -101,9 +101,9 @@ main:
     mov  w26, w26
 	
 
-    // -------------------------
+    // --------------------------------------------------------------
     // FONDO CELESTE (80% superior)
-    // -------------------------
+    // ---------------------------------------------------------------
     mov x0, x20
     mov x1, #0              // y inicial
     mov x2, #0              // x inicial
@@ -112,9 +112,9 @@ main:
     mov w5, w10             // color celeste
     bl draw_rect
 
-    // -------------------------
+    // -----------------------------------------------------------------
     // PISO DE BLOQUES MARRONES (20% inferior)
-    // -------------------------
+    // -----------------------------------------------------------------
     mov x0, x20
     mov x1, #384            // y inicial (80% superior de la pantalla)
     mov x2, #0              // x inicial
@@ -158,7 +158,7 @@ bucle_animacion:
     sub x2, x2, #80     // Nos movemos a la cabeza de Mario para poder borrarlo
     mov x3, x22         // x actual de Mario (antes de moverlo)
     mov x4, #85         // alto de Mario
-    mov x5, #50         // ancho de Mario
+    mov x5, #60         // ancho de Mario
     bl copiar_region                             
 
     // Calcular nueva posición de Mario
@@ -238,4 +238,4 @@ copiar_region:
 .bss
 .align 4
 buffer_fondo:
-.skip 640 * 85 * 4    // toda la línea horizontal, 85 px de alto que es el fondo donde se mueve Mario
+.skip 640 * 200 * 4    // toda la línea horizontal, 200 px de alto que es el fondo donde se mueve Mario
