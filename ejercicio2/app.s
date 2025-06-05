@@ -125,11 +125,11 @@ main:
 
     //Dibuja todos los objetos
 	bl draw_fondo           // Dibuja el arbusto y la montaña de fondo
-	bl draw_Suelo           // Dibuja los detalles del Suelo
+    bl draw_Suelo           // Dibuja los detalles del Suelo
     bl draw_OdC2025         // Dibuja OdC2025
     bl draw_TuboVerde       // Dibuja el Tubo Verde
     bl draw_bloque          // Dibuja los Bloques en el aire
-    bl draw_clouds          // Dibuja las Nubes
+    bl draw_clouds           // Dibuja las Nubes
 
     // Guardar fondo horizontal completo en donde se mueve Mario
     //en y=300
