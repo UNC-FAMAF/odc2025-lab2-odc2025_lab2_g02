@@ -128,7 +128,7 @@ main:
     bl draw_OdC2025         // Dibuja OdC2025
     bl draw_TuboVerde       // Dibuja el Tubo Verde
     bl draw_bloque          // Dibuja los Bloques en el aire
-    bl draw_cloud           // Dibuja las Nubes
+    bl draw_clouds           // Dibuja las Nubes
     bl draw_Moneda          // Dibuja un Moneda
 
     // -------------------------
