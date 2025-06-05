@@ -93,12 +93,6 @@ main:
     movk x25, 0xFFE8, lsl 16     // 0xFFE8D486   
     mov  w25, w25             
 
-    // Blanco (ojos)
-    movz x26, 0xFFFF, lsl 0
-    movk x26, 0xFFFF, lsl 16     // 0XFFFFFFFF
-    mov  w26, w26
-	
-
     // -------------------------
     // FONDO CELESTE (80% superior)
     // -------------------------
@@ -129,12 +123,13 @@ main:
 
     bl draw_fondo           // Dibuja el arbusto y la montaña de fondo
     bl draw_Mario           // Dibuja a Mario Bros
-	bl draw_HongoMalo	    // Dibuja a Goomba
-	bl draw_Suelo           // Dibuja los detalles del Suelo
+    bl draw_HongoMalo	    // Dibuja a Goomba
+    bl draw_Suelo           // Dibuja los detalles del Suelo
     bl draw_OdC2025         // Dibuja OdC2025
     bl draw_TuboVerde       // Dibuja el Tubo Verde
     bl draw_bloque          // Dibuja los Bloques en el aire
     bl draw_cloud           // Dibuja las Nubes
+    bl draw_Moneda          // Dibuja un Moneda
 
     // -------------------------
     // GPIO SETUP
