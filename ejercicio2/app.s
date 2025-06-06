@@ -80,26 +80,6 @@ main:
     movz x18, 0xFF00, lsl 0
     movk x18, 0xFFFF, lsl 16     // 0xFFFFFF00
     mov  w18, w18
-	
-	// ------------------------
-    // Colores para Goomba
-    // ------------------------
-
-	// Marrón (cabeza)
-    movz x24, 0x5D2E, lsl 0
-    movk x24, 0xFF8B, lsl 16     // 0XFF8B5D2E
-    mov  w24, w24                
-
-    // Marron claro (cuerpo)
-    movz x25, 0xD486  , lsl 0
-    movk x25, 0xFFE8, lsl 16     // 0xFFE8D486   
-    mov  w25, w25             
-
-    // Blanco (ojos)
-    movz x26, 0xFFFF, lsl 0
-    movk x26, 0xFFFF, lsl 16     // 0XFFFFFFFF
-    mov  w26, w26
-	
 
     // --------------------------------------------------------------
     // FONDO CELESTE (80% superior)
@@ -129,7 +109,7 @@ main:
     bl draw_OdC2025         // Dibuja OdC2025
     bl draw_TuboVerde       // Dibuja el Tubo Verde
     bl draw_bloque          // Dibuja los Bloques en el aire
-    bl draw_clouds           // Dibuja las Nubes
+    bl draw_clouds          // Dibuja las Nubes
 
     // Guardar fondo horizontal completo en donde se mueve Mario
     //en y=300
@@ -146,42 +126,51 @@ main:
 // Variables de posición  (inicialmente en x21 = y, x22 = x)
 // Donde arranca Mario
 mov x21, #380     // y inicial 
-mov x22, #0     // x inicial
+mov x22, #0       // x inicial
+mov x24, #0       // Alternador de dibujo: 0 o 1
 
 bucle_animacion:
-
 
     // Borrar a Mario anterior (restaurar fondo desde buffer)
     mov x0, x27         // origen: buffer de fondo
     mov x1, x20         // destino: framebuffer
     mov x2, x21         // y de Mario (pies)
-    sub x2, x2, #80     // Nos movemos a la cabeza de Mario para poder borrarlo
-    mov x3, x22         // x actual de Mario (antes de moverlo)
+    sub x2, x2, #80     // ir a la cabeza de Mario
+    mov x3, x22         // x actual de Mario
     mov x4, #85         // alto de Mario
-    mov x5, #60         // ancho de Mario
+    mov x5, #SCREEN_WIDTH  // ancho de Mario
     bl copiar_region                             
 
     // Calcular nueva posición de Mario
-    mov x0, x20
-    mov x23, x22        // x23 guarda la posición anterior en X
-    add x22, x22, #3    // avanza Mario en píxeles
-    cmp x22, #400       // límite
+    mov x23, x22        // Guardamos la posición anterior en X
+    add x22, x22, #18  // Avanza Mario en 3 píxeles
+    cmp x22, #400       // Comprobamos si Mario llegó al borde
     b.le seguir
-    mov x22, #0         // volver a empezar si llegó al borde
+    mov x22, #0         // Si llegó al borde, vuelve a la posición inicial
 seguir:
 
-    // Dibuja a Mario en una nueva posición
-    mov x0, x20
-    mov x1, x21
-    mov x2, x22
-    bl draw_Mario
+    // Dibuja a Mario en la nueva posición
+    mov x0, x20         // Dirección base del framebuffer
+    mov x1, x21         // Y de Mario
+    mov x2, x22         // X de Mario
+    cmp x24, #0         // Alterna entre las dos imágenes de Mario
+    b.eq usar_dibujo1
+usar_dibujo2:
+    bl draw_MarioCaminando2
+    mov x24, #0
+    b fin_dibujo
+usar_dibujo1:
+    bl draw_MarioCaminando1
+    mov x24, #1
+fin_dibujo:
 
-    // Delay para la animación
-    movz x0, 0x4B40, lsl 0        // parte baja
-	movk x0, 0x004C, lsl 16       // parte alta
+    // Delay para la animación (aquí puedes ajustar el tiempo de espera para un movimiento más lento)
+    movz x0, 0x9400, lsl 0        // parte baja
+    movk x0, 0x0200, lsl 16       // parte alta
     bl delay_custom
 
     b bucle_animacion
+
 
 // ------------------------------------------
 // Función: delay_custom (espera artificial)
@@ -238,4 +227,4 @@ copiar_region:
 .bss
 .align 4
 buffer_fondo:
-.skip 640 * 200 * 4    // toda la línea horizontal, 200 px de alto que es el fondo donde se mueve Mario
+.skip 640 * 400 * 4    // toda la línea horizontal, 200 px de alto que es el fondo donde se mueve Mario
