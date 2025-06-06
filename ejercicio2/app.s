@@ -119,7 +119,7 @@ main:
     mov x2, #300        // y = 300 (donde empieza el gorro de Mario)
     mov x3, #0          // x = 0 inicial
     mov x4, #85         // alto de Mario = 85
-    mov x5, #640        // ancho toda la pantalla
+    mov x5, #SCREEN_WIDTH        // ancho toda la pantalla
     bl copiar_region
 
 
@@ -143,7 +143,7 @@ bucle_animacion:
 
     // Calcular nueva posición de Mario
     mov x23, x22        // Guardamos la posición anterior en X
-    add x22, x22, #18  // Avanza Mario en 3 píxeles
+    add x22, x22, #15   // Avanza Mario en píxeles
     cmp x22, #350       // Comprobamos si Mario llegó al borde
     b.le seguir
 
@@ -163,7 +163,6 @@ bucle_animacion:
     b bucle_animacion
 
 seguir:
-
     // Dibuja a Mario en la nueva posición
     mov x0, x20         // Dirección base del framebuffer
     mov x1, x21         // Y de Mario
@@ -177,8 +176,6 @@ usar_dibujo2:
 usar_dibujo1:
     bl draw_MarioCaminando1
     mov x24, #1
-
-    
 fin_dibujo:
 
     // Delay para la animación 

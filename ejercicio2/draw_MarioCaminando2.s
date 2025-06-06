@@ -11,10 +11,11 @@ STR x30, [sp, #-16]!   // Guarda el LR en la pila
 
     // Pies de Mario
     mov x0, x20
-    //mov x1, #380     // Posición Fija
+    //mov x1, #380      // Posición Fija
     //mov x2, #150
-    mov x1, X21   // Posición que depende de variable
+    mov x1, X21         // Posición que depende de variable
     mov x2, X22
+    add x2, x2, #15     // para que queden coordinados los pies
     mov x3, #5
     mov x4, #20
     mov w5, w12
