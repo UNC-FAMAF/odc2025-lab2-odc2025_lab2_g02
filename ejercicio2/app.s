@@ -2,6 +2,10 @@
 	.equ SCREEN_HEIGH, 		480
 	.equ BITS_PER_PIXEL,  	32
 
+    .equ MARIO_WIDTH,    85
+    .equ MARIO_HEIGHT,   85
+    .equ MARIO_HEAD_OFF, 80
+
 	.equ GPIO_BASE,      0x3f200000
 	.equ GPIO_GPFSEL0,   0x00
 	.equ GPIO_GPLEV0,    0x34
@@ -114,11 +118,11 @@ main:
     // Guardar fondo horizontal completo en donde se mueve Mario
     //en y=300
     adr x27, buffer_fondo    // x27 = dirección del buffer
-    mov x0, x20         // framebuffer origen
-    mov x1, x27         // buffer destino
-    mov x2, #300        // y = 300 (donde empieza el gorro de Mario)
-    mov x3, #0          // x = 0 inicial
-    mov x4, #85         // alto de Mario = 85
+    mov x0, x20             // framebuffer origen
+    mov x1, x27             // buffer destino
+    mov x2, #300            // y = 300 (donde empieza el gorro de Mario)
+    mov x3, #0              // x = 0 inicial
+    mov x4, #MARIO_HEIGHT         // alto de Mario = 85
     mov x5, #SCREEN_WIDTH        // ancho toda la pantalla
     bl copiar_region
 
@@ -129,38 +133,39 @@ mov x21, #380     // y inicial
 mov x22, #0       // x inicial
 mov x24, #0       // Alternador de dibujo: 0 o 1
 
+
+//-----------------------ANIMACION-----------------
 bucle_animacion:
 
     // Borrar a Mario anterior (restaurar fondo desde buffer)
     mov x0, x27         // origen: buffer de fondo
     mov x1, x20         // destino: framebuffer
-    mov x2, x21         // y de Mario (pies)
-    sub x2, x2, #80     // ir a la cabeza de Mario
-    mov x3, x22         // x actual de Mario
-    mov x4, #85         // alto de Mario
-    mov x5, #SCREEN_WIDTH  // ancho de Mario
+    sub x2, x21, #MARIO_HEAD_OFF     // y de Mario, cabeza
+    mov x3, x23         // x anterior de Mario
+    mov x4, #MARIO_HEIGHT   // alto de Mario
+    mov x5, #MARIO_HEIGHT 
     bl copiar_region                             
 
     // Calcular nueva posición de Mario
     mov x23, x22        // Guardamos la posición anterior en X
     add x22, x22, #15   // Avanza Mario en píxeles
-    cmp x22, #350       // Comprobamos si Mario llegó al borde
+    cmp x22, #430       // Comprobamos si Mario llegó al borde
     b.le seguir
 
-    // Mario llegó al borde
-    // Mario parado
+    // Mario llegó al final de su caminata
+    // Mario quieto
     mov x0, x20     // framebuffer
     mov x1, x21     // y
     mov x2, x22     // x actual (final)
     bl draw_Mario
+
     // Delay 
     movz x0, 0x5000  
     movk x0, 0x0800, lsl 16
     bl delay_custom
-    // Reiniciar posición
-    mov x22, #0
-    // Volver al inicio de animación
-    b bucle_animacion
+
+    //Avanzamos con el salto y entrar al tubo
+    bl mario_salta_en_tubo
 
 seguir:
     // Dibuja a Mario en la nueva posición
@@ -185,6 +190,105 @@ fin_dibujo:
 
     b bucle_animacion
 
+// ------------------------------------------
+// Función: mario_salta_en_tubo
+// Mario salta sobre el tubo (sube y luego cae sobre el tubo)
+mario_salta_en_tubo:
+
+    // Borrar Mario anterior
+    mov x0, x27
+    mov x1, x20
+    sub x2, x23, #85     // y cabeza
+    mov x3, x24
+    mov x4, #MARIO_HEIGHT
+    mov x5, #MARIO_WIDTH  
+    bl copiar_region
+
+    // Subir en Y y avanzar en X
+    mov x23, x21        // x23 guarda la posición anterior en X
+    mov x24, x22        // x24 guarda la posición anterior en X
+    sub x21, x21, #3    // subir 8 px por frame
+    add x22, x22, #2    // avanzar 
+
+    // Mario llegó arriba del tubo 
+    cmp x22, #530       // Comprobamos si Mario llegó al borde
+    b.le seguir1
+
+    // Mario quieto
+    mov x0, x20     // framebuffer
+    mov x1, x21     // y
+    mov x2, x22     // x actual (final)
+    bl draw_Mario
+
+    // Delay 
+    movz x0, 0x5000  
+    movk x0, 0x0800, lsl 16
+    bl delay_custom
+
+
+    //Mario entra al tubo
+    bl mario_entrada_tubo
+
+    seguir1:
+    // Dibujar Mario saltando
+    mov x0, x20
+    mov x1, x21
+    mov x2, x22
+    bl draw_MarioSaltando
+
+    // Delay
+    movz x0, 0x9000
+    movk x0, 0x0100, lsl 16
+    bl delay_custom
+
+    b mario_salta_en_tubo
+
+    ret
+
+// ------------------------------------------
+// Función: mario_entrada_tubo
+// Mario entra al tubo lentamente
+mario_entrada_tubo:
+
+    // Borrar Mario anterior
+    mov x0, x27
+    mov x1, x20
+    mov x2, x23
+    sub x2, x2, #80
+    mov x3, x22
+    mov x4, #MARIO_HEIGHT
+    mov x5, #MARIO_WIDTH  
+    bl copiar_region
+
+    // Bajar Mario en Y
+    mov x23, x21        // Guardamos la posicion anterior
+    add x21, x21, #6   // baja de a poco
+
+    cmp x21, #430       // Comprobamos si Mario llegó al borde
+    b.le seguir2
+
+    // Reiniciar posición
+    mov x21, #380     
+    mov x22, #0       
+    mov x24, #0 
+    bl bucle_animacion
+
+seguir2:
+    // Dibujar Mario
+    mov x0, x20
+    mov x1, x21
+    mov x2, x22
+    bl draw_Mario 
+
+    // Delay
+    movz x0, 0xA000
+    movk x0, 0x0100, lsl 16
+    bl delay_custom
+
+    b mario_entrada_tubo
+
+.fin_entrada:
+    ret
 
 // ------------------------------------------
 // Función: delay_custom (espera artificial)
@@ -195,7 +299,7 @@ delay_loop_custom:
     b.ne delay_loop_custom
     ret
 
-// ------------------------------------------
+    // ------------------------------------------
 // Función: copiar_region
 // Copia una región rectangular de un buffer a otro
     // x0: origen (buffer o framebuffer)
@@ -208,12 +312,12 @@ delay_loop_custom:
 copiar_region:
     mov x6, #0              // fila
 .bucle_filas:
-    cmp x6, x4
+    cmp x6, x4              // si fila >= alto
     b.ge .fin_copia
 
     mov x7, #0              // columna
 .bucle_columnas:
-    cmp x7, x5
+    cmp x7, x5              // si columna >= ancho
     b.ge .fin_col
 
     add x8, x2, x6               // y + fila
@@ -236,9 +340,11 @@ copiar_region:
 .fin_copia:
     ret
 
+
 // ------------------------------------------
 // Buffer para fondo de Mario
 .bss
 .align 4
 buffer_fondo:
 .skip 640 * 400 * 4    // toda la línea horizontal, 200 px de alto que es el fondo donde se mueve Mario
+                        //640 de ancho * 400 de alto * 4 bytes por píxel
