@@ -144,9 +144,24 @@ bucle_animacion:
     // Calcular nueva posición de Mario
     mov x23, x22        // Guardamos la posición anterior en X
     add x22, x22, #18  // Avanza Mario en 3 píxeles
-    cmp x22, #400       // Comprobamos si Mario llegó al borde
+    cmp x22, #350       // Comprobamos si Mario llegó al borde
     b.le seguir
-    mov x22, #0         // Si llegó al borde, vuelve a la posición inicial
+
+    // Mario llegó al borde
+    // Mario parado
+    mov x0, x20     // framebuffer
+    mov x1, x21     // y
+    mov x2, x22     // x actual (final)
+    bl draw_Mario
+    // Delay 
+    movz x0, 0x5000  
+    movk x0, 0x0800, lsl 16
+    bl delay_custom
+    // Reiniciar posición
+    mov x22, #0
+    // Volver al inicio de animación
+    b bucle_animacion
+
 seguir:
 
     // Dibuja a Mario en la nueva posición
@@ -162,9 +177,11 @@ usar_dibujo2:
 usar_dibujo1:
     bl draw_MarioCaminando1
     mov x24, #1
+
+    
 fin_dibujo:
 
-    // Delay para la animación (aquí puedes ajustar el tiempo de espera para un movimiento más lento)
+    // Delay para la animación 
     movz x0, 0x9400, lsl 0        // parte baja
     movk x0, 0x0200, lsl 16       // parte alta
     bl delay_custom
