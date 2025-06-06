@@ -149,7 +149,7 @@ bucle_animacion:
     // Calcular nueva posición de Mario
     mov x23, x22        // Guardamos la posición anterior en X
     add x22, x22, #15   // Avanza Mario en píxeles
-    cmp x22, #430       // Comprobamos si Mario llegó al borde
+    cmp x22, #420       // Comprobamos si Mario llegó al borde
     b.le seguir
 
     // Guardar fondo horizontal completo en donde se mueve Mario
@@ -157,8 +157,8 @@ bucle_animacion:
     adr x27, buffer_fondo    // x27 = dirección del buffer
     mov x0, x20             // framebuffer origen
     mov x1, x27             // buffer destino
-    mov x2, #100            // y = 100 
-    mov x3, #300              // x = 300 inicial
+    mov x2, #90            // y = 90 
+    mov x3, #250              // x = 300 inicial
     mov x4, #SCREEN_HEIGH
     mov x5, #SCREEN_WIDTH        // ancho toda la pantalla
     bl copiar_region
@@ -210,7 +210,7 @@ mario_salta_en_tubo:
     mov x0, x27
     mov x1, x20
     mov x2, x23
-    sub x2, x2, #80     // y cabeza
+    sub x2, x2, #85     // y cabeza
     mov x3, x24
     sub x3, x3, #5
     mov x4, #MARIO_HEIGHT
@@ -218,29 +218,17 @@ mario_salta_en_tubo:
     bl copiar_region
 
     // Subir en Y y avanzar en X
-    mov x23, x21        // x23 guarda la posición anterior en X
+    mov x23, x21        // x23 guarda la posición anterior en Y
     mov x24, x22        // x24 guarda la posición anterior en X
     sub x21, x21, #10    // subir 8 px por frame
     add x22, x22, #3    // avanzar 
 
     // Mario llegó arriba del tubo 
-    cmp x22, #535       // Comprobamos si Mario llegó al borde
+    cmp x22, #480       // Comprobamos si Mario llegó al borde
     b.le seguir1
 
-    // Mario quieto
-    mov x0, x20     // framebuffer
-    mov x1, x21     // y
-    mov x2, x22     // x actual (final)
-    bl draw_Mario
-
-    // Delay 
-    movz x0, 0x5000  
-    movk x0, 0x0800, lsl 16
-    bl delay_custom
-
-
-    //Mario entra al tubo
-    bl mario_entrada_tubo
+    //Mario cae en tubo
+    bl mario_cae_en_tubo
 
     seguir1:
     // Dibujar Mario saltando
@@ -255,6 +243,62 @@ mario_salta_en_tubo:
     bl delay_custom
 
     b mario_salta_en_tubo
+
+    ret
+
+// ------------------------------------------
+// Función: mario_cae_en_tubo
+// Mario salta sobre el tubo (sube y luego cae sobre el tubo)
+mario_cae_en_tubo:
+
+    // Borrar Mario anterior
+    mov x0, x27
+    mov x1, x20
+    mov x2, x23
+    sub x2, x2, #80     // y cabeza
+    mov x3, x24
+    sub x3, x3, #5
+    mov x4, #MARIO_HEIGHT
+    mov x5, #MARIO_WIDTH  
+    bl copiar_region
+
+    // Bajar en Y y avanzar en X
+    mov x23, x21        // x23 guarda la posición anterior en Y
+    mov x24, x22        // x24 guarda la posición anterior en X
+    add x21, x21, #6    // bajar 8 px por frame
+    add x22, x22, #6    // avanzar 
+
+    // Mario al tubo 
+    cmp x22, #540       // Comprobamos si Mario llegó 
+    b.le seguir3
+    
+    // Mario quieto
+    mov x0, x20     // framebuffer
+    mov x1, x21     // y
+    mov x2, x22     // x actual (final)
+    bl draw_Mario
+
+    // Delay 
+    movz x0, 0x4B40
+    movk x0, 0x0002, lsl 16   
+    bl delay_custom
+
+    //Mario entra al tubo
+    bl mario_entrada_tubo
+
+    seguir3:
+    // Dibujar Mario saltando
+    mov x0, x20
+    mov x1, x21
+    mov x2, x22
+    bl draw_MarioSaltando
+
+    // Delay
+    movz x0, 0x9000
+    movk x0, 0x0100, lsl 16
+    bl delay_custom
+
+    b mario_cae_en_tubo
 
     ret
 
