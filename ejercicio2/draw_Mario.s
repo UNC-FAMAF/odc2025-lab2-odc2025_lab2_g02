@@ -91,8 +91,6 @@ STR x30, [sp, #-16]!   // Guarda el LR en la pila
 
     // Manos de Mario
 
-    //mov x1, #350   
-    //mov x2, #150
     sub x2, x2, #35
     mov x3, #15
     mov x4, #10
@@ -116,8 +114,6 @@ STR x30, [sp, #-16]!   // Guarda el LR en la pila
 
     // Camisa de Mario
 
-    //mov x1, #355   
-    //mov x2, #160
     sub x2, x2, #40
     mov x3, #5
     mov x4, #5
@@ -159,8 +155,6 @@ STR x30, [sp, #-16]!   // Guarda el LR en la pila
 
     // Cabeza de Mario
 
-    //mov x1, #335   
-    //mov x2, #185
     sub x1, x1, #5
     mov x3, #5
     mov x4, #15
@@ -216,8 +210,6 @@ STR x30, [sp, #-16]!   // Guarda el LR en la pila
 
     // Pelo y barba de Mario
 
-    //mov x1, #330   
-    //mov x2, #185
     add x1, x1, #15
     mov x3, #5
     mov x4, #20
