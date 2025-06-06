@@ -152,6 +152,17 @@ bucle_animacion:
     cmp x22, #430       // Comprobamos si Mario llegó al borde
     b.le seguir
 
+    // Guardar fondo horizontal completo en donde se mueve Mario
+    //en y=100
+    adr x27, buffer_fondo    // x27 = dirección del buffer
+    mov x0, x20             // framebuffer origen
+    mov x1, x27             // buffer destino
+    mov x2, #100            // y = 100 
+    mov x3, #300              // x = 300 inicial
+    mov x4, #SCREEN_HEIGH
+    mov x5, #SCREEN_WIDTH        // ancho toda la pantalla
+    bl copiar_region
+
     // Mario llegó al final de su caminata
     // Mario quieto
     mov x0, x20     // framebuffer
@@ -198,8 +209,10 @@ mario_salta_en_tubo:
     // Borrar Mario anterior
     mov x0, x27
     mov x1, x20
-    sub x2, x23, #85     // y cabeza
+    mov x2, x23
+    sub x2, x2, #80     // y cabeza
     mov x3, x24
+    sub x3, x3, #5
     mov x4, #MARIO_HEIGHT
     mov x5, #MARIO_WIDTH  
     bl copiar_region
@@ -207,11 +220,11 @@ mario_salta_en_tubo:
     // Subir en Y y avanzar en X
     mov x23, x21        // x23 guarda la posición anterior en X
     mov x24, x22        // x24 guarda la posición anterior en X
-    sub x21, x21, #3    // subir 8 px por frame
-    add x22, x22, #2    // avanzar 
+    sub x21, x21, #10    // subir 8 px por frame
+    add x22, x22, #3    // avanzar 
 
     // Mario llegó arriba del tubo 
-    cmp x22, #530       // Comprobamos si Mario llegó al borde
+    cmp x22, #535       // Comprobamos si Mario llegó al borde
     b.le seguir1
 
     // Mario quieto
@@ -264,7 +277,7 @@ mario_entrada_tubo:
     mov x23, x21        // Guardamos la posicion anterior
     add x21, x21, #6   // baja de a poco
 
-    cmp x21, #430       // Comprobamos si Mario llegó al borde
+    cmp x21, #430       // Comprobamos si Mario ya bajó
     b.le seguir2
 
     // Reiniciar posición
