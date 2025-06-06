@@ -153,12 +153,11 @@ bucle_animacion:
     b.le seguir
 
     // Guardar fondo horizontal completo en donde se mueve Mario
-    //en y=100
     adr x27, buffer_fondo    // x27 = dirección del buffer
     mov x0, x20             // framebuffer origen
     mov x1, x27             // buffer destino
     mov x2, #90            // y = 90 
-    mov x3, #250              // x = 300 inicial
+    mov x3, #250              // x = 250 inicial
     mov x4, #SCREEN_HEIGH
     mov x5, #SCREEN_WIDTH        // ancho toda la pantalla
     bl copiar_region
@@ -174,6 +173,15 @@ bucle_animacion:
     movz x0, 0x5000  
     movk x0, 0x0800, lsl 16
     bl delay_custom
+
+    // Borrar a Mario anterior
+    mov x0, x27         // origen: buffer de fondo
+    mov x1, x20         // destino: framebuffer
+    sub x2, x21, #MARIO_HEAD_OFF-5     // y de Mario, cabeza
+    mov x3, x23         // x anterior de Mario
+    mov x4, #MARIO_HEIGHT   // alto de Mario
+    mov x5, #MARIO_HEIGHT 
+    bl copiar_region
 
     //Avanzamos con el salto y entrar al tubo
     bl mario_salta_en_tubo
@@ -284,7 +292,7 @@ mario_cae_en_tubo:
     bl delay_custom
 
     //Mario entra al tubo
-    bl mario_entrada_tubo
+    bl mario_entra_tubo
 
     seguir3:
     // Dibujar Mario saltando
@@ -303,9 +311,9 @@ mario_cae_en_tubo:
     ret
 
 // ------------------------------------------
-// Función: mario_entrada_tubo
+// Función: mario_entra_tubo
 // Mario entra al tubo lentamente
-mario_entrada_tubo:
+mario_entra_tubo:
 
     // Borrar Mario anterior
     mov x0, x27
@@ -321,7 +329,7 @@ mario_entrada_tubo:
     mov x23, x21        // Guardamos la posicion anterior
     add x21, x21, #6   // baja de a poco
 
-    cmp x21, #430       // Comprobamos si Mario ya bajó
+    cmp x21, #380       // Comprobamos si Mario ya bajó
     b.le seguir2
 
     // Reiniciar posición
@@ -336,16 +344,30 @@ seguir2:
     mov x1, x21
     mov x2, x22
     bl draw_Mario 
+    // Redibujar el tubo por delante de Mario
+    // Guardar valores que cambia dibujar tuvo verde
+    str x20, [sp, #-8]!
+    str x21, [sp, #-8]!
+    str x22, [sp, #-8]!
+    str x23, [sp, #-8]!
+    str x24, [sp, #-8]!
+
+    bl draw_TuboVerde
+
+    // Restaurar
+    ldr x24, [sp], #8
+    ldr x23, [sp], #8
+    ldr x22, [sp], #8
+    ldr x21, [sp], #8
+    ldr x20, [sp], #8
+
 
     // Delay
     movz x0, 0xA000
     movk x0, 0x0100, lsl 16
     bl delay_custom
 
-    b mario_entrada_tubo
-
-.fin_entrada:
-    ret
+    b mario_entra_tubo
 
 // ------------------------------------------
 // Función: delay_custom (espera artificial)
