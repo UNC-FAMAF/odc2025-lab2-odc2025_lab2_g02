@@ -16,6 +16,11 @@ draw_TuboVerde:
     STUR X11, [SP, 0]
     mov x0, x20
 
+    // Verde (Tubo)
+    movz x11, 0xCE21, lsl 0
+    movk x11, 0xFF27, lsl 16     //0XFF27CE21
+    mov  w11, w11
+
     // -----------------------------
     // CUERPO DEL TUBO (2 COLORES)
     // -----------------------------
