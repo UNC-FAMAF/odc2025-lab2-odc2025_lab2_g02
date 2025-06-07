@@ -1,7 +1,18 @@
 .text
 .global draw_circle
 draw_circle:
-    STR x30, [sp, #-16]!     // Guarda LR
+    SUB SP, SP, 96             // Reservamos espacio (8 * 12 registros = 96 bytes)
+    STUR x30, [sp, 88]         // Guarda LR (x30)
+    STUR x9,  [sp, 80]
+    STUR x10, [sp, 72]
+    STUR x11, [sp, 64]
+    STUR x12, [sp, 56]
+    STUR x13, [sp, 48]
+    STUR x14, [sp, 40]
+    STUR x15, [sp, 32]
+    STUR x16, [sp, 24]
+    STUR x17, [sp, 16]
+    STUR x18, [sp, 8]
 
     // Parámetros:
     // x0: framebuffer base
@@ -46,6 +57,17 @@ draw_circle:
     B .loop_y
 
 .end_dcircle:
-    LDR x30, [sp], #16       // Restaura LR al salir
+    LDUR x18, [sp, 8]
+    LDUR x17, [sp, 16]
+    LDUR x16, [sp, 24]
+    LDUR x15, [sp, 32]
+    LDUR x14, [sp, 40]
+    LDUR x13, [sp, 48]
+    LDUR x12, [sp, 56]
+    LDUR x11, [sp, 64]
+    LDUR x10, [sp, 72]
+    LDUR x9,  [sp, 80]
+    LDUR x30, [sp, 88]
+    ADD SP, SP, 96     
     RET
 	

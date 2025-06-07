@@ -20,4 +20,4 @@ CMP (compare): La instrucción CMP fue utilizada para comparar registros y tomar
 
 MUL (multiply): Se utilizó para simplificar y acelerar cálculos como coordenadas y distancias (por ejemplo, en círculos o animaciones).
 
-STR (store) y LDR (load): Se utilizaron para guardar y restaurar el registro de enlace (x30) al entrar y salir de subrutinas. Esto permite el uso correcto de la pila y asegura que se pueda retornar correctamente desde subrutinas anidadas.
+STR (store) y LDR (load): Se utilizaron para guardar y restaurar principalmente el registro de enlace (x30) y otros registros al entrar y salir de subrutinas. Esto permite el uso correcto de la pila y asegura que se pueda retornar correctamente desde subrutinas anidadas.

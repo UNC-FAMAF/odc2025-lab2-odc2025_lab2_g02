@@ -114,6 +114,7 @@ main:
     bl draw_TuboVerde       // Dibuja el Tubo Verde
     bl draw_bloque          // Dibuja los Bloques en el aire
     bl draw_clouds          // Dibuja las Nubes
+    bl draw_Moneda
 
     // Guardar fondo horizontal completo en donde se mueve Mario
     //en y=300
